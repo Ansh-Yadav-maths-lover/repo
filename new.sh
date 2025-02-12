@@ -57,28 +57,31 @@ setup_storage() {
 download_windows_image() {
     echo "Installing dependencies..."
     apt update
-    apt install -y aria2
+    apt install -y aria2 wget
 
     # Choose Windows version
     echo "Select Windows version to download:"
     echo "1) Windows 10"
     echo "2) Windows 11"
-    read -p "Enter choice (1/2): " choice
+    read -p "Enter choice (1/2, default=1): " choice
 
-    if [[ "$choice" == "1" ]]; then
-        win_url="https://software-download.microsoft.com/db/Win10_22H2_English_x64.iso"
-        win_version="Windows10"
-    elif [[ "$choice" == "2" ]]; then
-        win_url="https://software-download.microsoft.com/db/Win11_23H2_English_x64.iso"
-        win_version="Windows11"
-    else
-        echo "Invalid choice! Exiting."
-        exit 1
-    fi
+    case "$choice" in
+        2) 
+            win_url="https://software-download.microsoft.com/db/Win11_23H2_English_x64.iso"
+            win_version="Windows 11"
+            ;;
+        *)
+            win_url="https://software-download.microsoft.com/db/Win10_22H2_English_x64.iso"
+            win_version="Windows 10"
+            ;;
+    esac
 
     echo "Downloading $win_version ISO..."
     mkdir -p /home/"$default_username"/storage
-    aria2c -x 16 -s 16 -d /home/"$default_username"/storage -o Windows.iso "$win_url"
+
+    # Try aria2 first, fallback to wget if it fails
+    aria2c -x 16 -s 16 -d /home/"$default_username"/storage -o Windows.iso "$win_url" || \
+    wget -O /home/"$default_username"/storage/Windows.iso "$win_url"
 
     echo "$win_version ISO downloaded successfully in /home/$default_username/storage/Windows.iso."
 }
@@ -111,5 +114,4 @@ setup_rdp() {
 create_user
 setup_rdp
 
-# Keep the script alive
-while true; do sleep 1; done
+echo "✅ Setup complete! You can now access your RDP."
