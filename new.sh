@@ -67,11 +67,11 @@ download_windows_image() {
 
     case "$choice" in
         2) 
-            win_url="https://software-download.microsoft.com/db/Win11_23H2_English_x64.iso"
+            win_url="https://archive.org/download/en-us_windows_10_consumer_editions_version_22h2_updated_feb_2023_x64_dvd_c29e4bb3/en-us_windows_10_consumer_editions_version_22h2_updated_feb_2023_x64_dvd_c29e4bb3.iso"
             win_version="Windows 11"
             ;;
         *)
-            win_url="https://software-download.microsoft.com/db/Win10_22H2_English_x64.iso"
+            win_url="https://archive.org/download/en-us_windows_10_consumer_editions_version_22h2_updated_feb_2023_x64_dvd_c29e4bb3/en-us_windows_10_consumer_editions_version_22h2_updated_feb_2023_x64_dvd_c29e4bb3.iso"
             win_version="Windows 10"
             ;;
     esac
